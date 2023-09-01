@@ -1,9 +1,11 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
-import 'package:rickandmorty/features/characters/data/models/characters_models.dart';
+
+import 'package:rickandmorty/features/characters/domain/entities/character.dart';
 import 'package:rickandmorty/features/characters/domain/entities/characters_info.dart';
 import 'package:rickandmorty/features/characters/domain/repositories/characters_repository.dart';
+import 'package:rickandmorty/features/shared/data/models/characters_models.dart';
 
 class CharactersRepositoryImpl implements CharactersRepository {
   final Client client;
@@ -15,7 +17,7 @@ class CharactersRepositoryImpl implements CharactersRepository {
     final params = {
       'page': '1',
     };
-    final Uri uri = Uri.http("rickandmortyapi.com", "/api/character", params);
+    final uri = Uri.http("rickandmortyapi.com", "/api/character", params);
 
     final response = await client.get(uri);
     final data = json.decode(response.body);
@@ -27,5 +29,21 @@ class CharactersRepositoryImpl implements CharactersRepository {
       totalPages: charactersResponse.totalPages,
       currentPage: charactersResponse.currentPage,
     );
+  }
+
+  @override
+  Future<List<Character>> findCharactersByIDs(List<int> characterIds) async {
+    final ids = characterIds.join(',');
+    final uri = Uri.http("rickandmortyapi.com", "/api/character/$ids");
+    final response = await client.get(uri);
+    final data = json.decode(response.body);
+
+    final charactersResponse = characterIds.length <= 1
+        ? [CharacterModel.fromJson(data)]
+        : (data as List)
+            .map((characterJson) => CharacterModel.fromJson(characterJson))
+            .toList();
+
+    return charactersResponse;
   }
 }

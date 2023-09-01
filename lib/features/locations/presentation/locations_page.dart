@@ -1,6 +1,6 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rickandmorty/features/location_detail/presentation/location_detail_page.dart';
 import 'package:rickandmorty/features/locations/presentation/bloc/locations_bloc.dart';
 import 'package:rickandmorty/injection_container.dart';
 
@@ -54,8 +54,12 @@ class LocationsPage extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                     subtitle: Text(location.type),
-                    trailing: Text(location.dimension),
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        LocationDetailPage.route(location),
+                      );
+                    },
                   ),
                 );
               },
