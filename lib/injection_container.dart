@@ -4,19 +4,34 @@ import 'package:rickandmorty/features/characters/domain/repositories/characters_
 import 'package:http/http.dart' as http;
 import 'package:rickandmorty/features/characters/domain/usecases/find_characters.dart';
 import 'package:rickandmorty/features/characters/presentation/bloc/characters_bloc.dart';
+import 'package:rickandmorty/features/locations/data/repositories/locations_repository_impl.dart';
+import 'package:rickandmorty/features/locations/domain/repositories/locations_repository.dart';
+import 'package:rickandmorty/features/locations/domain/usecase/find_locations.dart';
+import 'package:rickandmorty/features/locations/presentation/bloc/locations_bloc.dart';
 
 final getIt = GetIt.instance;
 
 Future<void> init() async {
   getIt.registerLazySingleton(() => http.Client());
-  getIt.registerLazySingleton<CharactersRepository>(
-      () => CharactersRepositoryImpl(http.Client()));
 
+  // Characters page  injection
+  getIt.registerLazySingleton<CharactersRepository>(
+      () => CharactersRepositoryImpl(getIt()));
   getIt.registerLazySingleton(() => FindCharacters(
         getIt(),
       ));
-
   getIt.registerFactory(() => CharactersBloc(
+        getIt(),
+      ));
+
+  // Locations page  injection
+
+  getIt.registerLazySingleton<LocationsRepository>(
+      () => LocationsRepositoryImpl(getIt()));
+  getIt.registerLazySingleton(() => FindLocations(
+        getIt(),
+      ));
+  getIt.registerFactory(() => LocationsBloc(
         getIt(),
       ));
 }

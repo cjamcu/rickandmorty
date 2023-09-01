@@ -10,7 +10,7 @@ class NavigationPage extends StatelessWidget {
 
   final pages = [
     const CharactersPage(),
-     LocationsPage(),
+    const LocationsPage(),
     const EpisodesPage(),
   ];
 
