@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:rickandmorty/features/navigation/presentation/navigation_page.dart';
-
+import 'injection_container.dart' as di;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await di.init();
   runApp(const MyApp());
 }
 

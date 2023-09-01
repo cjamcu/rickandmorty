@@ -1,10 +1,54 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rickandmorty/features/characters/domain/entities/character.dart';
+import 'package:rickandmorty/features/characters/presentation/bloc/characters_bloc.dart';
+import 'package:rickandmorty/features/characters/presentation/widgets/characters_grid.dart';
+import 'package:rickandmorty/injection_container.dart';
 
 class CharactersPage extends StatelessWidget {
+  const CharactersPage({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text('Characters'),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text("Characters"),
+          centerTitle: true,
+        ),
+        body: BlocProvider.value(
+          value: getIt<CharactersBloc>()..add(const FindCharactersEvent()),
+          child: BlocBuilder<CharactersBloc, CharactersState>(
+            builder: (context, state) {
+              if (state is CharactersLoading) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+
+              if (state is CharactersError) {
+                return const Center(
+                  child: Text("Error loading characters"),
+                );
+              }
+
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: CharactersGrid(
+                        characters: state.model.characters,
+                        onTap: (Character character) {
+                          print(character.name);
+                        }),
+                  ),
+                ],
+              );
+            },
+          ),
+        ),
+      ),
     );
   }
 }
