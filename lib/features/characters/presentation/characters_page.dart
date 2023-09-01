@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rickandmorty/features/characters/domain/entities/character.dart';
 import 'package:rickandmorty/features/characters/presentation/bloc/characters_bloc.dart';
 import 'package:rickandmorty/features/characters/presentation/widgets/characters_grid.dart';
+import 'package:rickandmorty/features/characters_detail/presentation/characters_detail_page.dart';
 import 'package:rickandmorty/injection_container.dart';
 
 class CharactersPage extends StatelessWidget {
@@ -40,7 +41,10 @@ class CharactersPage extends StatelessWidget {
                     child: CharactersGrid(
                         characters: state.model.characters,
                         onTap: (Character character) {
-                          print(character.name);
+                          Navigator.push(
+                            context,
+                            CharactersDetail.route(character),
+                          );
                         }),
                   ),
                 ],
