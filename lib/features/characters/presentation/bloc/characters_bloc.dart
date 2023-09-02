@@ -14,22 +14,46 @@ class CharactersBloc extends Bloc<CharactersEvent, CharactersState> {
 
   CharactersBloc(this.findCharacters)
       : super(
-          const CharactersInitial(
-              Model(characters: [], totalPages: 1, currentPage: 1)),
+          const CharactersInitial(Model(
+              characters: [], totalPages: 1, currentPage: 1, totalElements: 1)),
         ) {
     on<FindCharactersEvent>(_onFindCharactersEvent);
+    on<FindMoreCharactersEvent>(_onFindMoreCharactersEvent);
   }
 
   Future<FutureOr<void>> _onFindCharactersEvent(
       FindCharactersEvent event, Emitter<CharactersState> emit) async {
     emit(CharactersLoading(state.model));
     try {
-      final charactersInfo =
-          await findCharacters.execute(const FindCharactersParams());
-      emit(CharactersLoaded(Model(
-          characters: charactersInfo.characters,
-          totalPages: charactersInfo.totalPages,
-          currentPage: charactersInfo.currentPage)));
+      final response =
+          await findCharacters.execute(const FindCharactersParams(1));
+      emit(CharactersLoaded(state.model.copyWith(
+        characters: response.characters,
+        totalPages: response.totalPages,
+        totalElements: response.totalElements,
+      )));
+    } catch (e) {
+      emit(CharactersError(state.model));
+    }
+  }
+
+  Future<FutureOr<void>> _onFindMoreCharactersEvent(
+      FindMoreCharactersEvent event, Emitter<CharactersState> emit) async {
+    if (state.model.currentPage > state.model.totalPages) {
+      return 0;
+    }
+
+    emit(CharactersLoadingMore(state.model));
+    final currentPage = state.model.currentPage + 1;
+    try {
+      final response =
+          await findCharacters.execute(FindCharactersParams(currentPage));
+      emit(CharactersLoaded(state.model.copyWith(
+        characters: state.model.characters + response.characters,
+        totalPages: response.totalPages,
+        currentPage: currentPage,
+        totalElements: response.totalElements,
+      )));
     } catch (e) {
       emit(CharactersError(state.model));
     }

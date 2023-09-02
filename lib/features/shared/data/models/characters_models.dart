@@ -1,4 +1,5 @@
 import 'package:rickandmorty/features/characters/domain/entities/character.dart';
+import 'package:rickandmorty/features/characters/domain/entities/find_characters_reponse.dart';
 
 class CharacterModel extends Character {
   const CharacterModel(
@@ -29,26 +30,30 @@ class CharacterModel extends Character {
   }
 }
 
-class CharactersModel {
-  final List<CharacterModel> characters;
-  final int totalPages;
-  final int currentPage;
+class CharactersModel extends FindCharactersResponse {
+  final List<CharacterModel> results;
+  final int pages;
+  final int count;
 
   const CharactersModel({
-    required this.characters,
-    required this.totalPages,
-    required this.currentPage,
-  });
+    required this.results,
+    required this.pages,
+    required this.count,
+  }) : super(
+          totalElements: count,
+          totalPages: pages,
+          characters: results,
+        );
 
   factory CharactersModel.fromJson(Map<String, dynamic> json) {
-    final characters = (json['results'] as List)
+    final results = (json['results'] as List)
         .map((character) => CharacterModel.fromJson(character))
         .toList();
 
     return CharactersModel(
-      characters: characters,
-      totalPages: json['info']['pages'],
-      currentPage: json['info']['count'],
+      results: results,
+      pages: json['info']['pages'],
+      count: json['info']['count'],
     );
   }
 }

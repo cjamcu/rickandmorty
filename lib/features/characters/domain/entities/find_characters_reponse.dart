@@ -1,17 +1,17 @@
 import 'package:equatable/equatable.dart';
 import 'package:rickandmorty/features/characters/domain/entities/character.dart';
 
-class CharactersInfo extends Equatable {
+class FindCharactersResponse extends Equatable {
   final List<Character> characters;
   final int totalPages;
-  final int currentPage;
+  final int totalElements;
 
-  const CharactersInfo({
+  const FindCharactersResponse({
     required this.characters,
     required this.totalPages,
-    required this.currentPage,
+    required this.totalElements,
   });
 
   @override
-  List<Object?> get props => [characters, totalPages, currentPage];
+  List<Object?> get props => [characters, totalPages, totalElements];
 }

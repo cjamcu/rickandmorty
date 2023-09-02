@@ -37,29 +37,41 @@ class CharactersError extends CharactersState {
         );
 }
 
+class CharactersLoadingMore extends CharactersState {
+  const CharactersLoadingMore(Model model)
+      : super(
+          model: model,
+        );
+}
+
 class Model extends Equatable {
   final List<Character> characters;
   final int totalPages;
   final int currentPage;
+  final int totalElements;
 
   const Model({
     required this.characters,
     required this.totalPages,
     required this.currentPage,
+    required this.totalElements,
   });
 
   @override
-  List<Object?> get props => [characters, totalPages, currentPage];
+  List<Object?> get props =>
+      [characters, totalPages, currentPage, totalElements];
 
   copyWith({
     List<Character>? characters,
     int? totalPages,
     int? currentPage,
+    int? totalElements,
   }) {
     return Model(
       characters: characters ?? this.characters,
       totalPages: totalPages ?? this.totalPages,
       currentPage: currentPage ?? this.currentPage,
+      totalElements: totalElements ?? this.totalElements,
     );
   }
 }

@@ -11,35 +11,52 @@ class CharactersPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final charactersBloc = getIt<CharactersBloc>();
+
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
           title: const Text("Characters"),
           centerTitle: true,
         ),
-        body: BlocProvider.value(
-          value: getIt<CharactersBloc>()..add(const FindCharactersEvent()),
-          child: BlocBuilder<CharactersBloc, CharactersState>(
-            builder: (context, state) {
-              if (state is CharactersLoading) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
+        body: BlocBuilder<CharactersBloc, CharactersState>(
+          bloc: charactersBloc..add(const FindCharactersEvent()),
+          builder: (context, state) {
+            if (state is CharactersLoading) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
 
-              if (state is CharactersError) {
-                return const Center(
-                  child: Text("Error loading characters"),
-                );
-              }
+            if (state is CharactersError) {
+              return const Center(
+                child: Text("Error loading characters"),
+              );
+            }
 
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 0,
+                  ),
+                  child: Text(
+                    "Loaded ${state.model.characters.length} of ${state.model.totalElements} characters",
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 16, right: 16),
                     child: CharactersGrid(
                         characters: state.model.characters,
+                        isLoadingMore: state is CharactersLoadingMore,
+                        onEndOfList: (v) {
+                          charactersBloc.add(const FindMoreCharactersEvent());
+                        },
                         onTap: (Character character) {
                           Navigator.push(
                             context,
@@ -47,10 +64,10 @@ class CharactersPage extends StatelessWidget {
                           );
                         }),
                   ),
-                ],
-              );
-            },
-          ),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );

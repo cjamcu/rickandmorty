@@ -32,7 +32,12 @@ class CharacterCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text(character.name),
+                  Text(
+                    character.name,
+                    style: const TextStyle(fontSize: 20),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                   Row(
                     children: [
                       Container(
