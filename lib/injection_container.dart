@@ -7,13 +7,14 @@ import 'package:rickandmorty/features/episodes/data/repositories/episodes_reposi
 import 'package:rickandmorty/features/episodes/domain/repositories/episodes_repository.dart';
 import 'package:rickandmorty/features/episodes/domain/usecases/find_episodies.dart';
 import 'package:rickandmorty/features/episodes/presentation/bloc/episodes_bloc.dart';
-import 'package:rickandmorty/features/location_detail/domain/usecase/find_characters_by_location.dart';
-import 'package:rickandmorty/features/location_detail/presentation/bloc/location_detail_bloc.dart';
+
 import 'package:rickandmorty/features/locations/data/repositories/locations_repository_impl.dart';
 import 'package:rickandmorty/features/locations/domain/repositories/locations_repository.dart';
 import 'package:rickandmorty/features/locations/domain/usecase/find_locations.dart';
 import 'package:rickandmorty/features/locations/presentation/bloc/locations_bloc.dart';
 import 'package:rickandmorty/features/shared/data/repositories/characters_repository_impl.dart';
+import 'package:rickandmorty/features/shared/domain/usecase/find_characters_by_ids.dart';
+import 'package:rickandmorty/features/shared/presentation/widgets/characters_by_ids_widget/bloc/characters_by_ids_bloc.dart';
 
 final getIt = GetIt.instance;
 
@@ -41,11 +42,11 @@ Future<void> init() async {
         getIt(),
       ));
 
-  // Location detail page  injection
-  getIt.registerLazySingleton(() => FindCharactersByLocation(
+  // CharactersByIds widget  injection
+  getIt.registerLazySingleton(() => FindCharactersByIds(
         getIt(),
       ));
-  getIt.registerFactory(() => LocationDetailBloc(
+  getIt.registerFactory(() => CharactersByIdsBloc(
         getIt(),
       ));
 

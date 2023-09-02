@@ -24,7 +24,6 @@ class CharactersDetail extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Imagen del Personaje y Botón de Retroceso
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.5,
               child: Stack(
@@ -75,9 +74,7 @@ class CharactersDetail extends StatelessWidget {
                     style: Theme.of(context).textTheme.headlineSmall,
                   ),
                   const SizedBox(height: 10),
-
                   const Divider(),
-
                   SingleChildScrollView(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -139,8 +136,6 @@ class CharactersDetail extends StatelessWidget {
                       ],
                     ),
                   ),
-
-                  // Más información relevante podría ir aquí
                 ],
               ),
             ),

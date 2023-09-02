@@ -1,29 +1,29 @@
-part of 'location_detail_bloc.dart';
+part of 'characters_by_ids_bloc.dart';
 
-abstract class LocationDetailState extends Equatable {
+abstract class CharactersByIdsState extends Equatable {
   final List<Character> characters;
 
-  const LocationDetailState(this.characters);
+  const CharactersByIdsState(this.characters);
 
   @override
   List<Object> get props => [characters];
 }
 
-class LocationDetailInitial extends LocationDetailState {
+class LocationDetailInitial extends CharactersByIdsState {
   const LocationDetailInitial() : super(const []);
 }
 
-class LoadingCharactersState extends LocationDetailState {
+class LoadingCharactersState extends CharactersByIdsState {
   const LoadingCharactersState(List<Character> characters)
       : super(characters);
 }
 
-class LoadedCharactersState extends LocationDetailState {
+class LoadedCharactersState extends CharactersByIdsState {
   const LoadedCharactersState(List<Character> characters)
       : super(characters);
 }
 
-class ErrorLoadingCharactersState extends LocationDetailState {
+class ErrorLoadingCharactersState extends CharactersByIdsState {
   const ErrorLoadingCharactersState(
     List<Character> characters,
   ) : super(characters);

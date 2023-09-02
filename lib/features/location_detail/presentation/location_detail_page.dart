@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:rickandmorty/features/location_detail/presentation/widgets/residents_widgets.dart';
+
 import 'package:rickandmorty/features/locations/domain/entities/location.dart';
+import 'package:rickandmorty/features/shared/presentation/widgets/characters_by_ids_widget/widget.dart';
 
 class LocationDetailPage extends StatelessWidget {
   static route(Location location) {
@@ -65,7 +66,9 @@ class LocationDetailPage extends StatelessWidget {
                 ),
               ],
             ),
-            ResidentsWidget(characterIds: location.residentsIds),
+            const Divider(),
+            CharactersByIds(
+                title: "Residents", characterIds: location.residentsIds),
           ],
         ),
       ),
