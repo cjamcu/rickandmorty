@@ -43,6 +43,13 @@ class CharactersLoadingMore extends CharactersState {
           model: model,
         );
 }
+class NoResultsFound extends CharactersState {
+  const NoResultsFound(Model model)
+      : super(
+    model: model,
+  );
+}
+
 
 class Model extends Equatable {
   final List<Character> characters;

@@ -19,6 +19,7 @@ class CharactersBloc extends Bloc<CharactersEvent, CharactersState> {
         ) {
     on<FindCharactersEvent>(_onFindCharactersEvent);
     on<FindMoreCharactersEvent>(_onFindMoreCharactersEvent);
+    on<SearchCharacterByNameEvent>(_onSearchCharacterByNameEvent);
   }
 
   Future<FutureOr<void>> _onFindCharactersEvent(
@@ -26,7 +27,7 @@ class CharactersBloc extends Bloc<CharactersEvent, CharactersState> {
     emit(CharactersLoading(state.model));
     try {
       final response =
-          await findCharacters.execute(const FindCharactersParams(1));
+          await findCharacters.execute(const FindCharactersParams(page: 1));
       emit(CharactersLoaded(state.model.copyWith(
         characters: response.items,
         totalPages: response.totalPages,
@@ -47,13 +48,35 @@ class CharactersBloc extends Bloc<CharactersEvent, CharactersState> {
     final currentPage = state.model.currentPage + 1;
     try {
       final response =
-          await findCharacters.execute(FindCharactersParams(currentPage));
+          await findCharacters.execute(FindCharactersParams(page: currentPage));
       emit(CharactersLoaded(state.model.copyWith(
         characters: state.model.characters + response.items,
         totalPages: response.totalPages,
         currentPage: currentPage,
         totalElements: response.totalElements,
       )));
+    } catch (e) {
+      emit(CharactersError(state.model));
+    }
+  }
+
+  Future<FutureOr<void>> _onSearchCharacterByNameEvent(
+      SearchCharacterByNameEvent event, Emitter<CharactersState> emit) async {
+
+    try {
+      final response = await findCharacters
+          .execute(FindCharactersParams(page: 1, name: event.name));
+
+      if (response.items.isEmpty) {
+        emit(NoResultsFound(state.model));
+      } else {
+        emit(CharactersLoaded(state.model.copyWith(
+          characters: response.items,
+          totalPages: response.totalPages,
+
+          totalElements: response.totalElements,
+        )));
+      }
     } catch (e) {
       emit(CharactersError(state.model));
     }

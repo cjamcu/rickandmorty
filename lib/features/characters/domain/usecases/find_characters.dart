@@ -13,14 +13,15 @@ class FindCharacters
   @override
   Future<GetAllApiResponse<Character>> execute(
       FindCharactersParams params) async {
-    return await repository.findCharacters(params.page);
+    return await repository.findCharacters(params.page, params.name);
   }
 }
 
 class FindCharactersParams extends Equatable {
   final int page;
+  final String? name;
 
-  const FindCharactersParams(this.page);
+  const FindCharactersParams({required this.page, this.name});
 
   @override
   List<Object?> get props => [page];

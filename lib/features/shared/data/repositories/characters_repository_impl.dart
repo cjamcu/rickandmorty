@@ -14,9 +14,13 @@ class CharactersRepositoryImpl implements CharactersRepository {
   CharactersRepositoryImpl(this.client);
 
   @override
-  Future<GetAllApiResponse<Character>> findCharacters(int page) async {
+  Future<GetAllApiResponse<Character>> findCharacters(
+    int page,
+    String? name,
+  ) async {
     final params = {
-      'page': '$page'
+      'page': '$page',
+      if ((name ?? '').isNotEmpty) 'name': name,
     };
     final uri = Uri.http("rickandmortyapi.com", "/api/character", params);
 
@@ -25,9 +29,8 @@ class CharactersRepositoryImpl implements CharactersRepository {
 
     return GetAllApiModelModel<CharacterModel>.fromJson(
       data,
-          (itemJson) => CharacterModel.fromJson(itemJson),
+      (itemJson) => CharacterModel.fromJson(itemJson),
     );
-
   }
 
   @override
