@@ -1,5 +1,7 @@
-import 'package:rickandmorty/features/locations/domain/entities/locations.dart';
+
+import 'package:rickandmorty/features/locations/domain/entities/location.dart';
+import 'package:rickandmorty/features/shared/domain/entities/get_all_api_response.dart';
 
 abstract class LocationsRepository {
-  Future<Locations> findLocations(int page);
+  Future<GetAllApiResponse<Location>> findLocations(int page);
 }

@@ -3,9 +3,10 @@ import 'dart:convert';
 import 'package:http/http.dart';
 
 import 'package:rickandmorty/features/characters/domain/entities/character.dart';
-import 'package:rickandmorty/features/characters/domain/entities/find_characters_reponse.dart';
 import 'package:rickandmorty/features/characters/domain/repositories/characters_repository.dart';
-import 'package:rickandmorty/features/shared/data/models/characters_models.dart';
+import 'package:rickandmorty/features/shared/data/models/character_models.dart';
+import 'package:rickandmorty/features/shared/data/models/get_all_api_model.dart';
+import 'package:rickandmorty/features/shared/domain/entities/get_all_api_response.dart';
 
 class CharactersRepositoryImpl implements CharactersRepository {
   final Client client;
@@ -13,7 +14,7 @@ class CharactersRepositoryImpl implements CharactersRepository {
   CharactersRepositoryImpl(this.client);
 
   @override
-  Future<FindCharactersResponse> findCharacters(int page) async {
+  Future<GetAllApiResponse<Character>> findCharacters(int page) async {
     final params = {
       'page': '$page'
     };
@@ -22,7 +23,11 @@ class CharactersRepositoryImpl implements CharactersRepository {
     final response = await client.get(uri);
     final data = json.decode(response.body);
 
-    return CharactersModel.fromJson(data);
+    return GetAllApiModelModel<CharacterModel>.fromJson(
+      data,
+          (itemJson) => CharacterModel.fromJson(itemJson),
+    );
+
   }
 
   @override

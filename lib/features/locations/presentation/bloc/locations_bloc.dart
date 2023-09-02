@@ -25,7 +25,7 @@ class LocationsBloc extends Bloc<LocationsEvent, LocationsState> {
         1,
       ));
       emit(LocationsLoaded(state.model.copyWith(
-        locations: locationsInfo.locations,
+        locations: locationsInfo.items,
         currentPage: state.model.currentPage,
         totalElements: locationsInfo.totalElements,
         totalPages: locationsInfo.totalPages,
@@ -48,7 +48,7 @@ class LocationsBloc extends Bloc<LocationsEvent, LocationsState> {
           await findLocations.execute(FindLocationsParams(currentPage));
       emit(LocationsLoaded(
         state.model.copyWith(
-          locations: locationsInfo.locations + state.model.locations,
+          locations: locationsInfo.items + state.model.locations,
           currentPage: currentPage,
           totalElements: locationsInfo.totalElements,
           totalPages: locationsInfo.totalPages,

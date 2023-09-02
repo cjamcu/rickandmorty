@@ -28,7 +28,7 @@ class CharactersBloc extends Bloc<CharactersEvent, CharactersState> {
       final response =
           await findCharacters.execute(const FindCharactersParams(1));
       emit(CharactersLoaded(state.model.copyWith(
-        characters: response.characters,
+        characters: response.items,
         totalPages: response.totalPages,
         totalElements: response.totalElements,
       )));
@@ -49,7 +49,7 @@ class CharactersBloc extends Bloc<CharactersEvent, CharactersState> {
       final response =
           await findCharacters.execute(FindCharactersParams(currentPage));
       emit(CharactersLoaded(state.model.copyWith(
-        characters: state.model.characters + response.characters,
+        characters: state.model.characters + response.items,
         totalPages: response.totalPages,
         currentPage: currentPage,
         totalElements: response.totalElements,
