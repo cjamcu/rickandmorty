@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rickandmorty/features/characters/presentation/characters_page.dart';
-import 'package:rickandmorty/features/episodes/presentation/episodies_page.dart';
+import 'package:rickandmorty/features/episodes/presentation/episodes_page.dart';
 import 'package:rickandmorty/features/locations/presentation/locations_page.dart';
 import 'package:rickandmorty/features/navigation/presentation/bloc/navigation_bloc.dart';
 
