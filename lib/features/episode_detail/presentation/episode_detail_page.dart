@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rickandmorty/features/episodes/domain/entities/episode.dart';
 import 'package:rickandmorty/features/shared/presentation/widgets/characters_by_ids_widget/widget.dart';
+import 'package:rickandmorty/features/shared/presentation/widgets/labelled_content_list.dart';
 
 class EpisodeDetailPage extends StatelessWidget {
   static route({required Episode episode}) => MaterialPageRoute(
@@ -22,34 +23,15 @@ class EpisodeDetailPage extends StatelessWidget {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
-              Row(
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        "Name",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(episode.name),
-                    ],
+              LabelledContentList(
+                elements: [
+                  LabelledContent(
+                    title: 'Name',
+                    content: episode.name,
                   ),
-                  const SizedBox(width: 20),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        "Air Date",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(episode.airDate),
-                    ],
+                  LabelledContent(
+                    title: 'Air Date',
+                    content: episode.airDate,
                   ),
                 ],
               ),

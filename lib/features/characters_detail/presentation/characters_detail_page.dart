@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rickandmorty/features/characters/domain/entities/character.dart';
 import 'package:rickandmorty/features/characters/presentation/widgets/character_cache_image.dart';
+import 'package:rickandmorty/features/shared/presentation/widgets/labelled_content_list.dart'
+    show LabelledContent, LabelledContentList;
 
 class CharactersDetail extends StatelessWidget {
   static route(Character character) {
@@ -62,8 +64,6 @@ class CharactersDetail extends StatelessWidget {
                 ],
               ),
             ),
-
-            // Detalles del Personaje
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
@@ -75,66 +75,19 @@ class CharactersDetail extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   const Divider(),
-                  SingleChildScrollView(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              "Status",
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Row(
-                              children: [
-                                Container(
-                                  width: 10,
-                                  height: 10,
-                                  decoration: BoxDecoration(
-                                    color: character.status == "Alive"
-                                        ? Colors.green
-                                        : Colors.red,
-                                    borderRadius: BorderRadius.circular(100),
-                                  ),
-                                ),
-                                const SizedBox(width: 5),
-                                Text(character.status),
-                              ],
-                            ),
-                          ],
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              "Gender",
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(character.gender),
-                          ],
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              "Species",
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(character.species),
-                          ],
-                        ),
-                      ],
-                    ),
+                  LabelledContentList(
+                    elements: [
+                      LabelledContent(
+                          title: 'Status', content: character.status),
+                      LabelledContent(
+                        title: 'Species',
+                        content: character.species,
+                      ),
+                      LabelledContent(
+                        title: 'Gender',
+                        content: character.gender,
+                      ),
+                    ],
                   ),
                 ],
               ),

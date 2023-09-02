@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:rickandmorty/features/locations/domain/entities/location.dart';
 import 'package:rickandmorty/features/shared/presentation/widgets/characters_by_ids_widget/widget.dart';
+import 'package:rickandmorty/features/shared/presentation/widgets/labelled_content_list.dart';
 
 class LocationDetailPage extends StatelessWidget {
   static route(Location location) {
@@ -35,34 +36,15 @@ class LocationDetailPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      "Type",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(location.type),
-                  ],
+            LabelledContentList(
+              elements: [
+                LabelledContent(
+                  title: 'Type',
+                  content: location.type,
                 ),
-                const SizedBox(width: 20),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      "Dimension",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(location.dimension),
-                  ],
+                LabelledContent(
+                  title: 'Dimension',
+                  content: location.dimension,
                 ),
               ],
             ),
