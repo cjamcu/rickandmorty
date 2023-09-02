@@ -16,7 +16,8 @@
 - Run `cd rickandmorty` to enter the project directory
 - Run `flutter pub get` to install dependencies
 - Run `flutter run` to run the app
-- 
+
+
 ## Features
 
 - [x] View all characters with infinite scrolling
