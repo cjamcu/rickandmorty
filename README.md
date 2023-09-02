@@ -77,9 +77,8 @@ dependency serves a specific purpose, contributing to the overall experience:
 
 ## Screenshots
 
-![Mobile](https://raw.githubusercontent.com/cjamcu/rickandmorty/master/images/home.png)
-![Mobile](https://raw.githubusercontent.com/cjamcu/rickandmorty/master/images/detail_character.png)
-![Mobile](https://raw.githubusercontent.com/cjamcu/rickandmorty/master/images/locations.png)
-![Mobile](https://raw.githubusercontent.com/cjamcu/rickandmorty/master/images/detail_location.png)
-![Mobile](https://raw.githubusercontent.com/cjamcu/rickandmorty/master/images/episodes.png)
-![Mobile](https://raw.githubusercontent.com/cjamcu/rickandmorty/master/images/detail_episode.png)
+![alt-text-1](images/home.png "home") ![alt-text-2](images/detail_character.png "detail_character") 
+![alt-text-1](images/locations.png "locations") ![alt-text-2](images/detail_location.png "detail_location") 
+![alt-text-1](images/episodes.png "episodes") ![alt-text-2](images/detail_episode.png "detail_episode") 
+
+
