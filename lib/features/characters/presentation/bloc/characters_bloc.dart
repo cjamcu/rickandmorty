@@ -39,7 +39,7 @@ class CharactersBloc extends Bloc<CharactersEvent, CharactersState> {
 
   Future<FutureOr<void>> _onFindMoreCharactersEvent(
       FindMoreCharactersEvent event, Emitter<CharactersState> emit) async {
-    if (state.model.currentPage > state.model.totalPages) {
+    if (state.model.currentPage >= state.model.totalPages) {
       return 0;
     }
 

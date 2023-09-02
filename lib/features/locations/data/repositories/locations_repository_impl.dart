@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:rickandmorty/features/locations/data/models/locations_model.dart';
 
-import 'package:rickandmorty/features/locations/domain/entities/locations_info.dart';
+import 'package:rickandmorty/features/locations/domain/entities/locations.dart';
 import 'package:rickandmorty/features/locations/domain/repositories/locations_repository.dart';
 
 class LocationsRepositoryImpl implements LocationsRepository {
@@ -12,7 +12,7 @@ class LocationsRepositoryImpl implements LocationsRepository {
   LocationsRepositoryImpl(this.client);
 
   @override
-  Future<LocationsInfo> findLocations(int page) async {
+  Future<Locations> findLocations(int page) async {
     final params = {
       'page': '$page',
     };
@@ -22,11 +22,6 @@ class LocationsRepositoryImpl implements LocationsRepository {
     final response = await client.get(uri);
     final data = json.decode(response.body);
 
-    final locationsResponse = LocationsModel.fromJson(data);
-
-    return LocationsInfo(
-      locations: locationsResponse.locations,
-      totalPages: locationsResponse.totalPages,
-    );
+    return LocationsModel.fromJson(data);
   }
 }

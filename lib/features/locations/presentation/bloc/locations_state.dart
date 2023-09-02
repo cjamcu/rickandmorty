@@ -10,7 +10,13 @@ abstract class LocationsState extends Equatable {
 }
 
 class LocationsInitial extends LocationsState {
-  LocationsInitial() : super(Model(locations: [], currentPage: 1));
+  LocationsInitial()
+      : super(Model(
+          locations: [],
+          currentPage: 1,
+          totalElements: 0,
+          totalPages: 1,
+        ));
 }
 
 class LocationsLoading extends LocationsState {
@@ -25,16 +31,34 @@ class LocationsError extends LocationsState {
   const LocationsError(Model model) : super(model);
 }
 
+class LocationsMoreLoading extends LocationsState {
+  const LocationsMoreLoading(Model model) : super(model);
+}
+
 class Model {
   final List<Location> locations;
   final int currentPage;
+  final int totalElements;
+  final int totalPages;
 
-  Model({required this.locations, required this.currentPage});
+  Model({
+    required this.locations,
+    required this.currentPage,
+    required this.totalElements,
+    required this.totalPages,
+  });
 
-  copyWith({List<Location>? locations, int? currentPage}) {
+  copyWith({
+    List<Location>? locations,
+    int? currentPage,
+    int? totalElements,
+    int? totalPages,
+  }) {
     return Model(
       locations: locations ?? this.locations,
       currentPage: currentPage ?? this.currentPage,
+      totalElements: totalElements ?? this.totalElements,
+      totalPages: totalPages ?? this.totalPages,
     );
   }
 }

@@ -10,3 +10,9 @@ class FindLocationsEvent extends LocationsEvent {
   List<Object> get props => [];
 }
 
+class FindMoreLocationsEvent extends LocationsEvent {
+  @override
+  List<Object> get props => [];
+}
+
+

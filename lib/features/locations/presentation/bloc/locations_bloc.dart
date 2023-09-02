@@ -14,6 +14,7 @@ class LocationsBloc extends Bloc<LocationsEvent, LocationsState> {
 
   LocationsBloc(this.findLocations) : super(LocationsInitial()) {
     on<FindLocationsEvent>(_findLocationsEvent);
+    on<FindMoreLocationsEvent>(_findMoreLocationsEvent);
   }
 
   Future<FutureOr<void>> _findLocationsEvent(
@@ -21,12 +22,38 @@ class LocationsBloc extends Bloc<LocationsEvent, LocationsState> {
     emit(LocationsLoading(state.model));
     try {
       final locationsInfo = await findLocations.execute(FindLocationsParams(
-        state.model.currentPage,
+        1,
       ));
       emit(LocationsLoaded(state.model.copyWith(
         locations: locationsInfo.locations,
-        currentPage: state.model.currentPage + 1,
+        currentPage: state.model.currentPage,
+        totalElements: locationsInfo.totalElements,
+        totalPages: locationsInfo.totalPages,
       )));
+    } catch (e) {
+      emit(LocationsError(state.model));
+    }
+  }
+
+  Future<FutureOr<void>> _findMoreLocationsEvent(
+      FindMoreLocationsEvent event, Emitter<LocationsState> emit) async {
+    if (state.model.currentPage >= state.model.totalPages) {
+      return 0;
+    }
+
+    emit(LocationsMoreLoading(state.model));
+    final currentPage = state.model.currentPage + 1;
+    try {
+      final locationsInfo =
+          await findLocations.execute(FindLocationsParams(currentPage));
+      emit(LocationsLoaded(
+        state.model.copyWith(
+          locations: locationsInfo.locations + state.model.locations,
+          currentPage: currentPage,
+          totalElements: locationsInfo.totalElements,
+          totalPages: locationsInfo.totalPages,
+        ),
+      ));
     } catch (e) {
       emit(LocationsError(state.model));
     }
