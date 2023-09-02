@@ -1,18 +1,23 @@
 import 'package:rickandmorty/core/usecases/usecase.dart';
-import 'package:rickandmorty/features/episodes/domain/entities/find_episodes_response.dart';
-import 'package:rickandmorty/features/episodes/domain/repositories/episodes_repository.dart';
+import 'package:rickandmorty/features/episodes/domain/entities/episode.dart';
 
-class FindEpisodes extends UseCase<FindEpisodesResponse, FindEpisodesParams> {
+import 'package:rickandmorty/features/episodes/domain/repositories/episodes_repository.dart';
+import 'package:rickandmorty/features/shared/domain/entities/get_all_api_response.dart';
+
+class FindEpisodes
+    extends UseCase<GetAllApiResponse<Episode>, FindEpisodesParams> {
   final EpisodesRepository repository;
 
   FindEpisodes(this.repository);
 
   @override
-  Future<FindEpisodesResponse> execute(FindEpisodesParams params) async {
-    return await repository.findEpisodes();
+  Future<GetAllApiResponse<Episode>> execute(FindEpisodesParams params) async {
+    return await repository.findEpisodes(params.page);
   }
 }
 
 class FindEpisodesParams {
-  const FindEpisodesParams();
+  final int page;
+
+  const FindEpisodesParams(this.page);
 }

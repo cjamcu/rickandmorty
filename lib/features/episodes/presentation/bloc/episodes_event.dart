@@ -10,3 +10,10 @@ class FindEpisodesEvent extends EpisodesEvent {
   @override
   List<Object?> get props => [];
 }
+
+class FindMoreEpisodesEvent extends EpisodesEvent {
+  const FindMoreEpisodesEvent();
+
+  @override
+  List<Object?> get props => [];
+}

@@ -14,6 +14,7 @@ class EpisodesBloc extends Bloc<EpisodesEvent, EpisodesState> {
 
   EpisodesBloc(this.findEpisodes) : super(const EpisodesInitial()) {
     on<FindEpisodesEvent>(_onFindEpisodesEvent);
+    on<FindMoreEpisodesEvent>(_onFindMoreEpisodesEvent);
   }
 
   Future<FutureOr<void>> _onFindEpisodesEvent(
@@ -22,9 +23,34 @@ class EpisodesBloc extends Bloc<EpisodesEvent, EpisodesState> {
 
     try {
       final findEpisodesResponse =
-          await findEpisodes.execute(const FindEpisodesParams());
-      emit(EpisodesLoaded(
-          state.model.copyWith(episodes: findEpisodesResponse.episodes)));
+          await findEpisodes.execute(const FindEpisodesParams(1));
+      emit(EpisodesLoaded(state.model.copyWith(
+        episodes: findEpisodesResponse.items,
+        totalElements: findEpisodesResponse.totalElements,
+        totalPages: findEpisodesResponse.totalPages,
+      )));
+    } catch (e) {
+      emit(EpisodesError(state.model));
+    }
+  }
+
+  Future<FutureOr<void>> _onFindMoreEpisodesEvent(
+      FindMoreEpisodesEvent event, Emitter<EpisodesState> emit) async {
+
+    if (state.model.currentPage >= state.model.totalPages) {
+      return 0;
+    }
+    emit(EpisodesMoreLoading(state.model));
+    final currentPage = state.model.currentPage + 1;
+    try {
+      final findEpisodesResponse =
+          await findEpisodes.execute(FindEpisodesParams(currentPage));
+      emit(EpisodesLoaded(state.model.copyWith(
+        episodes: findEpisodesResponse.items + state.model.episodes,
+        totalElements: findEpisodesResponse.totalElements,
+        totalPages: findEpisodesResponse.totalPages,
+        currentPage: currentPage,
+      )));
     } catch (e) {
       emit(EpisodesError(state.model));
     }
