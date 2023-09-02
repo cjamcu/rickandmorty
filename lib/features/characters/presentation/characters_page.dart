@@ -4,6 +4,7 @@ import 'package:rickandmorty/features/characters/domain/entities/character.dart'
 import 'package:rickandmorty/features/characters/presentation/bloc/characters_bloc.dart';
 import 'package:rickandmorty/features/characters/presentation/widgets/characters_grid.dart';
 import 'package:rickandmorty/features/characters_detail/presentation/characters_detail_page.dart';
+import 'package:rickandmorty/features/shared/presentation/widgets/search_text_field.dart';
 import 'package:rickandmorty/injection_container.dart';
 
 class CharactersPage extends StatelessWidget {
@@ -19,55 +20,64 @@ class CharactersPage extends StatelessWidget {
           title: const Text("Characters"),
           centerTitle: true,
         ),
-        body: BlocBuilder<CharactersBloc, CharactersState>(
-          bloc: charactersBloc..add(const FindCharactersEvent()),
-          builder: (context, state) {
-            if (state is CharactersLoading) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
+        body: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 16, right: 16),
+              child: SearchTextField(
+                  hintText: 'Search by character name',
+                  onChanged: (value) {
+                    charactersBloc.add(SearchCharacterByNameEvent(value));
+                  }),
+            ),
+            Expanded(
+              child: BlocBuilder<CharactersBloc, CharactersState>(
+                bloc: charactersBloc..add(const FindCharactersEvent()),
+                builder: (context, state) {
+                  if (state is CharactersLoading) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
 
-            if (state is CharactersError) {
-              return const Center(
-                child: Text("Error loading characters"),
-              );
-            }
+                  if (state is CharactersError) {
+                    return const Center(
+                      child: Text("Error loading characters"),
+                    );
+                  }
 
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 0,
-                  ),
-                  child: Text(
-                    "Loaded ${state.model.characters.length} of ${state.model.totalElements} characters",
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
+                  return Padding(
                     padding: const EdgeInsets.only(left: 16, right: 16),
-                    child: CharactersGrid(
-                        characters: state.model.characters,
-                        isLoadingMore: state is CharactersLoadingMore,
-                        onEndOfList: (v) {
-                          charactersBloc.add(const FindMoreCharactersEvent());
-                        },
-                        onTap: (Character character) {
-                          Navigator.push(
-                            context,
-                            CharactersDetail.route(character),
-                          );
-                        }),
-                  ),
-                ),
-              ],
-            );
-          },
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Loaded ${state.model.characters.length} of ${state.model.totalElements} characters",
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                        Expanded(
+                          child: CharactersGrid(
+                              characters: state.model.characters,
+                              isLoadingMore: state is CharactersLoadingMore,
+                              onEndOfList: (v) {
+                                charactersBloc
+                                    .add(const FindMoreCharactersEvent());
+                              },
+                              onTap: (Character character) {
+                                Navigator.push(
+                                  context,
+                                  CharactersDetail.route(character),
+                                );
+                              }),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );
