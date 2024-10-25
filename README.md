@@ -1,4 +1,7 @@
 # Rick and Morty App 📱
+[![Coverage - 100%](https://img.shields.io/badge/Coverage-100%-2ea44f)](https://) [![Flutter - 3.24.4](https://img.shields.io/badge/Flutter-3.24.4-2596be)](https://)
+
+
 
 ## 📋 Índice
 
