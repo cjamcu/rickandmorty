@@ -19,6 +19,7 @@ class AppColors {
 
   static const mediumSpringGreen = Color(0xFF00F5A0);
   static const blue500 = Color(0xFF00D9F5);
+  static const blue900 = Color(0xFF0C134F);
 
   static const red400 = Color(0xFFFC4A4A);
 }

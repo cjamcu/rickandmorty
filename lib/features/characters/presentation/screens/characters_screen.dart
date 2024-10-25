@@ -35,6 +35,12 @@ class CharactersScreen extends StatelessWidget {
     ),
   ];
 
+  static Route<dynamic> route() {
+    return MaterialPageRoute(
+      builder: (context) => const CharactersScreen(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

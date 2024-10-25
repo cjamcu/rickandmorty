@@ -28,6 +28,19 @@ final appTheme = ThemeData(
       ),
     ),
   ),
+  // inputDecorationTheme: const InputDecorationTheme(
+  //   hintStyle: TextStyle(
+  //     color: AppColors.grey,
+  //     fontFamily: 'Nunito',
+  //     fontSize: 14,
+  //     fontWeight: FontWeight.w400,
+  //   ),
+  //   filled: true,
+  //   fillColor: AppColors.black800,
+  //   border: OutlineInputBorder(
+  //     borderSide: BorderSide.none,
+  //   ),
+  // ),
   textTheme: const TextTheme(
     displayLarge: TextStyle(
       fontFamily: 'Nunito',
@@ -38,6 +51,7 @@ final appTheme = ThemeData(
       fontFamily: 'Nunito',
       fontSize: 32,
       fontWeight: FontWeight.w700, // Bold
+      color: AppColors.white,
     ),
     displaySmall: TextStyle(
       fontFamily: 'Nunito',
