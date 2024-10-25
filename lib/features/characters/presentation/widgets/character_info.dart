@@ -24,12 +24,6 @@ class CharacterInfo extends StatelessWidget {
           label: 'Created',
           value: character.created,
         ),
-        const SizedBox(height: 12),
-        if (character.episode != null)
-          CharacterInfoItem(
-            label: 'Episode',
-            value: character.episode!,
-          ),
       ],
     );
   }

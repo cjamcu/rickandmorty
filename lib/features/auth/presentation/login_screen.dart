@@ -42,32 +42,30 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _handleAuthStateChange() {
     if (!mounted) return;
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted) return;
-      switch (_authProvider.status) {
-        case AuthStatus.authenticated:
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(
-              builder: (_) => const CharactersScreen(),
-            ),
-          );
-          break;
-        case AuthStatus.invalidCredentials:
-          _showErrorSnackBar('Credenciales inválidas');
-          break;
-        case AuthStatus.tooManyRequests:
-          _showErrorSnackBar(
-            'Has hecho demasiadas solicitudes. Espera 5 minutos antes de intentarlo de nuevo.',
-          );
-          break;
-        case AuthStatus.error:
-          _showErrorSnackBar('Error al iniciar sesión');
-          break;
-        default:
-          // No action needed for other states
-          break;
-      }
-    });
+
+    if (!mounted) return;
+    switch (_authProvider.status) {
+      case AuthStatus.authenticated:
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (_) => const CharactersScreen(),
+          ),
+        );
+        break;
+      case AuthStatus.invalidCredentials:
+        _showErrorSnackBar('Credenciales inválidas');
+        break;
+      case AuthStatus.tooManyRequests:
+        _showErrorSnackBar(
+          'Has hecho demasiadas solicitudes. Espera 5 minutos antes de intentarlo de nuevo.',
+        );
+        break;
+      case AuthStatus.error:
+        _showErrorSnackBar('Error al iniciar sesión');
+        break;
+      default:
+        break;
+    }
   }
 
   void _showErrorSnackBar(String message) {
@@ -157,7 +155,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           const SizedBox(height: 48),
                           Consumer<AuthProvider>(
                             builder: (context, authProvider, child) {
-                              return authProvider.status == AuthStatus.loading
+                              return authProvider.status ==
+                                          AuthStatus.loading ||
+                                      authProvider.status ==
+                                          AuthStatus.authenticated
                                   ? const CircularProgressIndicator(
                                       color: AppColors.mediumSpringGreen,
                                     )

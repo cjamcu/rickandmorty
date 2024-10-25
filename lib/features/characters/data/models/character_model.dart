@@ -15,6 +15,7 @@ class CharacterModel extends Character {
 
   factory CharacterModel.fromJson(Map<String, dynamic> json) {
     final origin = OriginModel.fromJson(json['origin']);
+    final episodes = json['episode'] as List<dynamic>;
     return CharacterModel(
       id: json['id'],
       image: json['image'],
@@ -24,6 +25,7 @@ class CharacterModel extends Character {
       gender: json['gender'],
       origin: origin.name.replaceAll(' (Replacement Dimension)', ''),
       created: json['created'],
+      episode: episodes.isNotEmpty ? episodes.first : null,
     );
   }
 }

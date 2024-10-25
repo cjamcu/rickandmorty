@@ -6,6 +6,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:rickandmorty/features/characters/data/datasources/characters_datasource.dart';
 import 'package:rickandmorty/features/characters/data/models/characters_response.dart';
 import 'package:rickandmorty/features/characters/domain/exceptions/no_found_characters_exceptions.dart';
+import 'package:rickandmorty/features/characters/data/models/episode_model.dart';
 
 class MockHttpClient extends Mock implements http.Client {}
 
@@ -123,6 +124,46 @@ void main() {
       expect(result.results[0].origin, equals('Earth (C-137)'));
       expect(result.results[0].image,
           equals('https://rickandmortyapi.com/api/character/avatar/1.jpeg'));
+    });
+  });
+
+  group('getEpisode', () {
+    final tEpisodeUrl = 'https://rickandmortyapi.com/api/episode/1';
+    final tEpisodeJson = '''
+      {
+        "id": 1,
+        "name": "Pilot",
+        "air_date": "December 2, 2013",
+        "episode": "S01E01",
+        "characters": ["https://rickandmortyapi.com/api/character/1"],
+        "url": "https://rickandmortyapi.com/api/episode/1",
+        "created": "2017-11-10T12:56:33.798Z"
+      }
+    ''';
+
+    test('should return EpisodeModel when the response is 200', () async {
+      // arrange
+      when(() => mockHttpClient.get(Uri.parse(tEpisodeUrl)))
+          .thenAnswer((_) async => http.Response(tEpisodeJson, 200));
+
+      // act
+      final result = await datasource.getEpisode(tEpisodeUrl);
+
+      // assert
+      expect(result, isA<EpisodeModel>());
+      expect(result.name, equals('Pilot'));
+    });
+
+    test('should throw an exception when the response is not 200', () async {
+      // arrange
+      when(() => mockHttpClient.get(Uri.parse(tEpisodeUrl)))
+          .thenAnswer((_) async => http.Response('Not Found', 404));
+
+      // act
+      final call = datasource.getEpisode;
+
+      // assert
+      expect(() => call(tEpisodeUrl), throwsException);
     });
   });
 }

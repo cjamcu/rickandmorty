@@ -1,7 +1,7 @@
 import 'dart:convert';
-
-import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
 import 'package:rickandmorty/features/characters/data/models/characters_response.dart';
+import 'package:rickandmorty/features/characters/data/models/episode_model.dart';
 import 'package:rickandmorty/features/characters/domain/exceptions/no_found_characters_exceptions.dart';
 
 abstract class CharactersDatasource {
@@ -9,10 +9,12 @@ abstract class CharactersDatasource {
     required int page,
     String? name,
   });
+
+  Future<EpisodeModel> getEpisode(String url);
 }
 
 class CharactersDatasourceApi implements CharactersDatasource {
-  final Client client;
+  final http.Client client;
 
   CharactersDatasourceApi({required this.client});
 
@@ -37,5 +39,17 @@ class CharactersDatasourceApi implements CharactersDatasource {
     }
     final data = json.decode(response.body);
     return CharactersResponse.fromJson(data);
+  }
+
+  @override
+  Future<EpisodeModel> getEpisode(String url) async {
+    final response = await client.get(Uri.parse(url));
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to load episode');
+    }
+
+    final data = json.decode(response.body);
+    return EpisodeModel.fromJson(data);
   }
 }
