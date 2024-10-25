@@ -47,19 +47,23 @@ class DetailCharacterScreen extends StatelessWidget {
               const SizedBox(height: 16),
               CharacterBadges(character: character),
               const SizedBox(height: 72),
-              Text(
-                'Más personajes',
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: AppColors.grey,
-                      fontSize: 24,
-                      fontWeight: FontWeight.w700,
-                    ),
-              ),
-              const SizedBox(height: 16),
-              MoreCharactersList(
-                characters: characters,
-                character: character,
-              ),
+              if (characters.length > 1)
+                Text(
+                  'Más personajes',
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        color: AppColors.grey,
+                        fontSize: 24,
+                        fontWeight: FontWeight.w700,
+                      ),
+                ),
+              if (characters.length > 1)
+                Padding(
+                  padding: const EdgeInsets.only(top: 16),
+                  child: MoreCharactersList(
+                    characters: characters,
+                    character: character,
+                  ),
+                ),
             ],
           ),
         ),
