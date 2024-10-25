@@ -13,6 +13,7 @@ class CharacterInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CharacterInfoItem(
           label: 'Species',
