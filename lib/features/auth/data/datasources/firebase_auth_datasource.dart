@@ -28,9 +28,9 @@ class FirebaseAuthDatasource implements AuthDatasource {
       } else if (e.code == 'too-many-requests') {
         throw TooManyRequestsException();
       }
-      throw Exception('Error al iniciar sesión: ${e.toString()}');
+      throw Exception('Error al iniciar sesión');
     } catch (e) {
-      throw Exception('Error al iniciar sesión: ${e.toString()}');
+      throw Exception('Error al iniciar sesión');
     }
   }
 

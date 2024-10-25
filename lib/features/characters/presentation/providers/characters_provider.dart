@@ -43,8 +43,10 @@ class CharactersProvider extends ChangeNotifier {
         page: page,
       );
 
-      _charactersResult = charactersResult.copyWith(
+      _charactersResult = CharactersResult(
         results: [...oldCharacters, ...charactersResult.results],
+        pages: charactersResult.pages,
+        count: charactersResult.count,
       );
 
       _page = page;
