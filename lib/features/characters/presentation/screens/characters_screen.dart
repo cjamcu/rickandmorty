@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:rickandmorty/app/colors.dart';
 import 'package:rickandmorty/features/characters/domain/entities/character.dart';
 import 'package:rickandmorty/features/characters/presentation/screens/detail_character_screen.dart';
+import 'package:rickandmorty/features/characters/presentation/screens/search_screen.dart';
 import 'package:rickandmorty/features/characters/presentation/widgets/character_card.dart';
+import 'package:rickandmorty/features/shared/presentation/widgets/search_input.dart';
 
 class CharactersScreen extends StatelessWidget {
   const CharactersScreen({super.key});
@@ -72,6 +74,15 @@ class CharactersScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
           child: Column(
             children: [
+              SearchInput(
+                readOnly: true,
+                hintText: 'Buscar personaje',
+                onTap: () => Navigator.push(
+                  context,
+                  SearchScreen.route(),
+                ),
+              ),
+              const SizedBox(height: 40),
               ListView.separated(
                 primary: false,
                 shrinkWrap: true,

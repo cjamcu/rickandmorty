@@ -22,8 +22,7 @@ class CharacterHeader extends StatelessWidget {
               tag: character.id,
               child: AvatarCached(
                 imageUrl: character.image,
-                width: 181,
-                height: 181,
+                size: 181,
               ),
             ),
             const SizedBox(width: 32.5),

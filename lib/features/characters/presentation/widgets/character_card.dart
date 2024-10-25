@@ -35,8 +35,7 @@ class CharacterCard extends StatelessWidget {
             Hero(
               tag: character.id,
               child: AvatarCached(
-                width: 120,
-                height: 120,
+                size: 120,
                 imageUrl: character.image,
               ),
             ),

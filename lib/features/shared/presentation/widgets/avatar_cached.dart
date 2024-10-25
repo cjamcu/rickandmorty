@@ -5,18 +5,17 @@ class AvatarCached extends StatelessWidget {
   const AvatarCached({
     super.key,
     required this.imageUrl,
-    required this.width,
-    required this.height,
+    required this.size,
   });
   final String imageUrl;
-  final double width;
-  final double height;
+  final double size;
+
 
   @override
   Widget build(BuildContext context) {
     return CachedNetworkImage(
-      width: width,
-      height: height,
+      width: size,
+      height: size,
       imageUrl: imageUrl,
       placeholder: (context, url) => const SizedBox(),
       errorWidget: (context, url, error) => const SizedBox(),
