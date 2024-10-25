@@ -7,6 +7,12 @@ final appTheme = ThemeData(
   appBarTheme: const AppBarTheme(
     backgroundColor: AppColors.black600,
   ),
+  actionIconTheme: ActionIconThemeData(
+    backButtonIconBuilder: (BuildContext context) => const Icon(
+      Icons.arrow_back_ios,
+      color: AppColors.white,
+    ),
+  ),
   colorScheme: ColorScheme.fromSeed(
     seedColor: AppColors.primaryColor,
     secondary: AppColors.secondaryColor,

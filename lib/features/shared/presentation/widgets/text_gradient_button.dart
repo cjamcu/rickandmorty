@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rickandmorty/app/colors.dart';
+import 'package:rickandmorty/features/shared/presentation/widgets/gradient_container.dart';
 
 class TextGradientButton extends StatelessWidget {
   final String text;
@@ -20,18 +21,10 @@ class TextGradientButton extends StatelessWidget {
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.black600,
-          padding: const EdgeInsets.symmetric(
-            vertical: 12,
-          ),
+          padding: const EdgeInsets.symmetric(vertical: 12),
         ),
         onPressed: onPressed,
-        child: ShaderMask(
-          shaderCallback: (bounds) => const LinearGradient(
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
-            colors: [Color(0xFF00F5A0), Color(0xFF00D9F5)],
-            tileMode: TileMode.clamp,
-          ).createShader(bounds),
+        child: GradientContainer(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

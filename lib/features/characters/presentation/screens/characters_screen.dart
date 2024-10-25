@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rickandmorty/app/colors.dart';
 import 'package:rickandmorty/features/characters/domain/entities/character.dart';
+import 'package:rickandmorty/features/characters/presentation/screens/detail_character_screen.dart';
 import 'package:rickandmorty/features/characters/presentation/widgets/character_card.dart';
 
 class CharactersScreen extends StatelessWidget {
@@ -10,21 +11,25 @@ class CharactersScreen extends StatelessWidget {
   static const List<Character> characters = [
     Character(
       id: 1,
-      name: 'Rick', 
+      name: 'Rick',
       image: 'https://rickandmortyapi.com/api/character/avatar/1.jpeg',
       gender: 'Male',
       species: 'Human',
       status: 'Alive',
       origin: 'Earth (C-500A)',
+      created: '2017-11-10T13:08:13.191Z',
+      episode: 'The Rickshank Rickdemption',
     ),
     Character(
-      id: 4,
+      id: 37,
       name: 'Abadabgo Cluster Princess',
       image: 'https://rickandmortyapi.com/api/character/avatar/4.jpeg',
       gender: 'Female',
       species: 'Alien',
       status: 'Died',
       origin: 'Abadabgo Cluster',
+      created: '2017-11-04T18:48:46.250Z',
+      episode: 'The Rickshank Rickdemption',
     ),
   ];
 
@@ -62,14 +67,32 @@ class CharactersScreen extends StatelessWidget {
           const SizedBox(width: 24),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
-        child: ListView.separated(
-          itemCount: characters.length,
-          separatorBuilder: (context, index) => const SizedBox(height: 42),
-          itemBuilder: (context, index) {
-            return CharacterCard(character: characters[index]);
-          },
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
+          child: Column(
+            children: [
+              ListView.separated(
+                primary: false,
+                shrinkWrap: true,
+                itemCount: characters.length,
+                separatorBuilder: (context, index) =>
+                    const SizedBox(height: 42),
+                itemBuilder: (context, index) {
+                  return CharacterCard(
+                    character: characters[index],
+                    onPressed: () => Navigator.push(
+                      context,
+                      DetailCharacterScreen.route(
+                        characters[index],
+                        characters,
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
