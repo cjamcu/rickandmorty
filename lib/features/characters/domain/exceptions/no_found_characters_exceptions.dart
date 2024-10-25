@@ -1,0 +1,1 @@
+class NotFoundCharactersException implements Exception {}

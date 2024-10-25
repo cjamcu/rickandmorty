@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart';
 import 'package:rickandmorty/features/characters/data/models/characters_response.dart';
+import 'package:rickandmorty/features/characters/domain/exceptions/no_found_characters_exceptions.dart';
 
 abstract class CharactersDatasource {
   Future<CharactersResponse> getCharacters({
@@ -27,6 +28,10 @@ class CharactersDatasourceApi implements CharactersDatasource {
     final uri = Uri.http("rickandmortyapi.com", "/api/character", params);
 
     final response = await client.get(uri);
+
+    if (response.statusCode == 404) {
+      throw NotFoundCharactersException();
+    }
     if (response.statusCode != 200) {
       throw Exception('Failed to load characters');
     }

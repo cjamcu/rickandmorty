@@ -38,11 +38,11 @@ class _SearchInputState extends State<SearchInput> {
 
   void _onSearchChanged(String value) {
     if (_debounceTimer?.isActive ?? false) _debounceTimer!.cancel();
-    
+
     _debounceTimer = Timer(widget.debounceDuration, () {
       widget.onChanged?.call(value);
     });
-    
+
     setState(() {});
   }
 
@@ -52,6 +52,7 @@ class _SearchInputState extends State<SearchInput> {
       controller: controller,
       onChanged: _onSearchChanged,
       style: const TextStyle(color: AppColors.white),
+      cursorColor: AppColors.mediumSpringGreen,
       decoration: InputDecoration(
         hintText: widget.hintText,
         hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
