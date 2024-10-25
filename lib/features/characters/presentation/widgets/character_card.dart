@@ -7,13 +7,13 @@ import 'package:rickandmorty/features/shared/presentation/widgets/widgets.dart';
 class CharacterCard extends StatelessWidget {
   final Character character;
   final VoidCallback onPressed;
-  final bool removeLocationAndStatus;
+  final bool hideBadges;
 
   const CharacterCard({
     super.key,
     required this.character,
     required this.onPressed,
-    this.removeLocationAndStatus = false,
+    this.hideBadges = false,
   });
 
   @override
@@ -53,7 +53,7 @@ class CharacterCard extends StatelessWidget {
                     color: AppColors.grey,
                   ),
             ),
-            if (!removeLocationAndStatus)
+            if (!hideBadges)
               Padding(
                 padding: const EdgeInsets.only(top: 20),
                 child: CharacterBadges(

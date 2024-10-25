@@ -17,6 +17,8 @@ class MoreCharactersList extends StatelessWidget {
     // remove the character that is being displayed
     final charactersToDisplay =
         characters.where((c) => c.id != character.id).toList();
+
+    charactersToDisplay.shuffle();
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
@@ -38,7 +40,7 @@ class MoreCharactersList extends StatelessWidget {
                           charactersToDisplay[index], characters),
                     );
                   },
-                  removeLocationAndStatus: true,
+                  hideBadges: true,
                 ),
               ),
             ),

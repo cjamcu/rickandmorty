@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:rickandmorty/app/theme.dart';
-import 'package:rickandmorty/features/auth/presentation/login_screen.dart';
 import 'package:rickandmorty/features/characters/presentation/screens/characters_screen.dart';
 
 class App extends StatelessWidget {
@@ -11,7 +10,7 @@ class App extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: appTheme,
-      home: LoginScreen(),
+      home: const CharactersScreen(),
     );
   }
 }

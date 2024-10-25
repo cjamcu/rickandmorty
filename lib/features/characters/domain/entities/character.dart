@@ -9,7 +9,7 @@ class Character extends Equatable {
   final String gender;
   final String origin;
   final String created;
-  final String episode;
+  final String? episode;
 
   const Character({
     required this.id,
@@ -20,10 +20,10 @@ class Character extends Equatable {
     required this.gender,
     required this.origin,
     required this.created,
-    required this.episode,
+    this.episode,
   });
 
   @override
   List<Object?> get props =>
-      [id, image, name, status, species, gender, origin, created, episode ];
+      [id, image, name, status, species, gender, origin, created, episode];
 }

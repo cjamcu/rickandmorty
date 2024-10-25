@@ -63,6 +63,7 @@ final appTheme = ThemeData(
       fontFamily: 'Nunito',
       fontSize: 16,
       fontWeight: FontWeight.w400, // Regular
+      color: AppColors.white,
     ),
     bodyMedium: TextStyle(
       fontFamily: 'Nunito',

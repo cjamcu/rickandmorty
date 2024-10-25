@@ -1,39 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+import 'package:provider/provider.dart';
 import 'package:rickandmorty/app/colors.dart';
-import 'package:rickandmorty/features/characters/domain/entities/character.dart';
+import 'package:rickandmorty/features/characters/data/datasources/characters_datasource.dart';
+import 'package:rickandmorty/features/characters/data/repositories/characters_repository_impl.dart';
+import 'package:rickandmorty/features/characters/presentation/providers/characters_provider.dart';
 import 'package:rickandmorty/features/characters/presentation/screens/detail_character_screen.dart';
 import 'package:rickandmorty/features/characters/presentation/screens/search_screen.dart';
 import 'package:rickandmorty/features/characters/presentation/widgets/character_card.dart';
+import 'package:rickandmorty/features/shared/presentation/widgets/gradient_button.dart';
+import 'package:rickandmorty/features/shared/presentation/widgets/listview_infinite.dart';
 import 'package:rickandmorty/features/shared/presentation/widgets/search_input.dart';
 
 class CharactersScreen extends StatelessWidget {
   const CharactersScreen({super.key});
-
-  // Fake Characters of the Rick and Morty API
-  static const List<Character> characters = [
-    Character(
-      id: 1,
-      name: 'Rick',
-      image: 'https://rickandmortyapi.com/api/character/avatar/1.jpeg',
-      gender: 'Male',
-      species: 'Human',
-      status: 'Alive',
-      origin: 'Earth (C-500A)',
-      created: '2017-11-10T13:08:13.191Z',
-      episode: 'The Rickshank Rickdemption',
-    ),
-    Character(
-      id: 37,
-      name: 'Abadabgo Cluster Princess',
-      image: 'https://rickandmortyapi.com/api/character/avatar/4.jpeg',
-      gender: 'Female',
-      species: 'Alien',
-      status: 'Died',
-      origin: 'Abadabgo Cluster',
-      created: '2017-11-04T18:48:46.250Z',
-      episode: 'The Rickshank Rickdemption',
-    ),
-  ];
 
   static Route<dynamic> route() {
     return MaterialPageRoute(
@@ -75,41 +55,98 @@ class CharactersScreen extends StatelessWidget {
           const SizedBox(width: 24),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
-          child: Column(
-            children: [
-              SearchInput(
-                readOnly: true,
-                hintText: 'Buscar personaje',
-                onTap: () => Navigator.push(
-                  context,
-                  SearchScreen.route(),
+      body: Padding(
+        padding: const EdgeInsets.only(
+          left: 24,
+          right: 24,
+          top: 40,
+        ),
+        child: Column(
+          children: [
+            ChangeNotifierProvider<CharactersProvider>(
+              create: (context) => CharactersProvider(
+                charactersRepository: CharactersRepositoryImpl(
+                  charactersDatasource:
+                      CharactersDatasourceApi(client: Client()),
                 ),
-              ),
-              const SizedBox(height: 40),
-              ListView.separated(
-                primary: false,
-                shrinkWrap: true,
-                itemCount: characters.length,
-                separatorBuilder: (context, index) =>
-                    const SizedBox(height: 42),
-                itemBuilder: (context, index) {
-                  return CharacterCard(
-                    character: characters[index],
-                    onPressed: () => Navigator.push(
-                      context,
-                      DetailCharacterScreen.route(
-                        characters[index],
-                        characters,
+              )..getCharacters(),
+              child: Consumer<CharactersProvider>(
+                builder: (context, provider, child) {
+                  if (provider.status == CharactersProviderStatus.error) {
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Error al cargar los personajes. Intenta nuevamente.',
+                          style: Theme.of(context).textTheme.bodyLarge,
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 16),
+                        TextGradientButton(
+                          text: 'Reintentar',
+                          onPressed: () => provider.getCharacters(),
+                        ),
+                      ],
+                    );
+                  }
+                  if (provider.status == CharactersProviderStatus.loading) {
+                    return const Center(
+                      child: CircularProgressIndicator(
+                        color: AppColors.mediumSpringGreen,
                       ),
-                    ),
-                  );
+                    );
+                  }
+                  if (provider.status == CharactersProviderStatus.success ||
+                      provider.status == CharactersProviderStatus.loadingMore) {
+                    final characters = provider.charactersResult.results;
+                    return Expanded(
+                      child: Column(
+                        children: [
+                          SearchInput(
+                            readOnly: true,
+                            hintText: 'Buscar personaje',
+                            onTap: () => Navigator.push(
+                              context,
+                              SearchScreen.route(),
+                            ),
+                          ),
+                          const SizedBox(height: 40),
+                          Expanded(
+                            child: ListViewInfinite(
+                              shrinkWrap: true,
+                              itemCount: characters.length,
+                              onEndOfList: (value) {
+                                provider.getCharacters(
+                                  page: provider.page + 1,
+                                );
+                              },
+                              isLoadingMore: provider.status ==
+                                  CharactersProviderStatus.loadingMore,
+                              separatorBuilder: (context, index) =>
+                                  const SizedBox(height: 42),
+                              itemBuilder: (context, index) {
+                                return CharacterCard(
+                                  character: characters[index],
+                                  onPressed: () => Navigator.push(
+                                    context,
+                                    DetailCharacterScreen.route(
+                                      characters[index],
+                                      characters,
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+                  return const SizedBox.shrink();
                 },
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

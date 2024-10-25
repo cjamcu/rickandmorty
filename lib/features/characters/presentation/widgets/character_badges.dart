@@ -17,15 +17,15 @@ class CharacterBadges extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: mainAxisAlignment,
+    return Wrap(
+      runSpacing: 8,
+      spacing: separatorWidth,
       children: [
         CustomBadge(
           text: character.origin,
           iconPath: 'assets/icons/location.svg',
           color: AppColors.pink,
         ),
-        SizedBox(width: separatorWidth),
         CustomBadge(
           text: character.status,
           iconPath: 'assets/icons/heart.svg',
