@@ -33,6 +33,7 @@ class MoreCharactersList extends StatelessWidget {
                 width: MediaQuery.of(context).size.width * 0.78,
                 child: CharacterCard(
                   character: charactersToDisplay[index],
+                  enableHero: false,
                   onPressed: () {
                     Navigator.push(
                       context,

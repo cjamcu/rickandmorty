@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 import 'package:rickandmorty/app/colors.dart';
-import 'package:rickandmorty/features/characters/data/datasources/characters_datasource.dart';
-import 'package:rickandmorty/features/characters/data/repositories/characters_repository_impl.dart';
+import 'package:rickandmorty/features/auth/presentation/login_screen.dart';
+import 'package:rickandmorty/features/auth/presentation/providers/auth_provider.dart';
 import 'package:rickandmorty/features/characters/presentation/providers/characters_provider.dart';
 import 'package:rickandmorty/features/characters/presentation/screens/search_screen.dart';
 import 'package:rickandmorty/features/characters/presentation/widgets/characters_list_view.dart';
@@ -23,21 +22,9 @@ class CharactersScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(context),
-      body: Padding(
-        padding: const EdgeInsets.only(left: 24, right: 24, top: 40),
-        child: Column(
-          children: [
-            ChangeNotifierProvider<CharactersProvider>(
-              create: (context) => CharactersProvider(
-                charactersRepository: CharactersRepositoryImpl(
-                  charactersDatasource:
-                      CharactersDatasourceApi(client: Client()),
-                ),
-              )..getCharacters(),
-              child: const _CharactersContent(),
-            ),
-          ],
-        ),
+      body: const Padding(
+        padding: EdgeInsets.only(left: 24, right: 24, top: 40),
+        child: _CharactersContent(),
       ),
     );
   }
@@ -46,7 +33,10 @@ class CharactersScreen extends StatelessWidget {
     return AppBar(
       actions: [
         ElevatedButton.icon(
-          onPressed: () {},
+          onPressed: () {
+            context.read<AuthProvider>().signOut();
+            Navigator.pushReplacement(context, LoginScreen.route());
+          },
           icon: const Icon(
             Icons.logout,
             color: Color(0xffF5F5F5),
@@ -146,30 +136,28 @@ class _CharactersListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final characters = provider.charactersResult.results;
-    return Expanded(
-      child: Column(
-        children: [
-          SearchInput(
-            readOnly: true,
-            hintText: 'Buscar personaje',
-            onTap: () => Navigator.push(
-              context,
-              SearchScreen.route(),
-            ),
+    return Column(
+      children: [
+        SearchInput(
+          readOnly: true,
+          hintText: 'Buscar personaje',
+          onTap: () => Navigator.push(
+            context,
+            SearchScreen.route(),
           ),
-          const SizedBox(height: 40),
-          Expanded(
-            child: CharactersListView(
-              characters: characters,
-              onEndOfList: () => provider.getCharacters(
-                page: provider.page + 1,
-              ),
-              isLoadingMore:
-                  provider.status == CharactersProviderStatus.loadingMore,
+        ),
+        const SizedBox(height: 40),
+        Expanded(
+          child: CharactersListView(
+            characters: characters,
+            onEndOfList: () => provider.getCharacters(
+              page: provider.page + 1,
             ),
+            isLoadingMore:
+                provider.status == CharactersProviderStatus.loadingMore,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

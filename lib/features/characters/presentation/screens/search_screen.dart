@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rickandmorty/app/colors.dart';
-import 'package:rickandmorty/features/characters/data/datasources/characters_datasource.dart';
-import 'package:rickandmorty/features/characters/data/repositories/characters_repository_impl.dart';
 import 'package:rickandmorty/features/characters/presentation/providers/search_characters_provider.dart';
 import 'package:rickandmorty/features/characters/presentation/widgets/search_results_list.dart';
 import 'package:rickandmorty/features/characters/presentation/widgets/search_state_message.dart';
 import 'package:rickandmorty/features/shared/presentation/widgets/widgets.dart';
-import 'package:http/http.dart' as http;
 
 class SearchScreen extends StatelessWidget {
   const SearchScreen({super.key});
@@ -18,23 +15,16 @@ class SearchScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => SearchCharactersProvider(
-        charactersRepository: CharactersRepositoryImpl(
-          charactersDatasource: CharactersDatasourceApi(client: http.Client()),
-        ),
-      ),
-      child: const Scaffold(
-        body: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.only(top: 20, left: 22, right: 26),
-            child: Column(
-              children: [
-                _SearchBar(),
-                SizedBox(height: 20),
-                Expanded(child: _SearchContent()),
-              ],
-            ),
+    return const Scaffold(
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.only(top: 20, left: 22, right: 26),
+          child: Column(
+            children: [
+              _SearchBar(),
+              SizedBox(height: 20),
+              Expanded(child: _SearchContent()),
+            ],
           ),
         ),
       ),

@@ -8,16 +8,23 @@ class CharacterCard extends StatelessWidget {
   final Character character;
   final VoidCallback onPressed;
   final bool hideBadges;
+  final bool enableHero;
 
   const CharacterCard({
     super.key,
     required this.character,
     required this.onPressed,
     this.hideBadges = false,
+    this.enableHero = true,
   });
 
   @override
   Widget build(BuildContext context) {
+    final imageWidget = AvatarCached(
+      size: 120,
+      imageUrl: character.image,
+    );
+
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(24),
@@ -32,13 +39,12 @@ class CharacterCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Hero(
-              tag: character.id,
-              child: AvatarCached(
-                size: 120,
-                imageUrl: character.image,
-              ),
-            ),
+            enableHero
+                ? Hero(
+                    tag: character.id,
+                    child: imageWidget,
+                  )
+                : imageWidget,
             const SizedBox(height: 20),
             Text(
               character.name,

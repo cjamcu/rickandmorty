@@ -30,8 +30,7 @@ class SearchResultsList extends StatelessWidget {
 class _CharacterListItem extends StatelessWidget {
   final Character character;
 
-  const _CharacterListItem({Key? key, required this.character})
-      : super(key: key);
+  const _CharacterListItem({required this.character});
 
   @override
   Widget build(BuildContext context) {
