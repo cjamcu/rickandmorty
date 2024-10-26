@@ -20,9 +20,12 @@ class CharacterCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final imageWidget = AvatarCached(
-      size: 120,
-      imageUrl: character.image,
+    final imageWidget = GestureDetector(
+      onTap: onPressed,
+      child: AvatarCached(
+        size: 120,
+        imageUrl: character.image,
+      ),
     );
 
     return Card(
