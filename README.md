@@ -9,6 +9,7 @@ Para probar la aplicación, puedes utilizar las siguientes credenciales:
 ## 📋 Índice
 
 - [Resumen del Proyecto](#-resumen-del-proyecto)
+- [Demo](#-demo)
 - [Arquitectura](#️-arquitectura)
 - [Dependencias Principales](#️-dependencias-principales)
 - [Configuración y Ejecución](#-configuración-y-ejecución)
@@ -24,6 +25,20 @@ Rick and Morty App es una aplicación Flutter diseñada para explorar informaci�
 - 🔐 Autenticación de usuarios mediante Firebase
 
 La aplicación utiliza la API pública de Rick and Morty para obtener los datos de los personajes y Firebase para la autenticación de usuarios.
+
+## 🎥 Demo
+
+Aquí puedes ver una demostración de la aplicación en funcionamiento:
+
+
+
+https://github.com/user-attachments/assets/192d4f35-7ee0-4466-ab8d-21eb0956eac8
+
+
+
+Además, puedes probar la aplicación directamente en tu dispositivo descargándola desde el siguiente enlace:
+
+[Descargar Rickandmorty App](https://github.com/cjamcu/rickandmorty/releases/tag/v.0.0.1) 
 
 ## 🏗️ Arquitectura
 
