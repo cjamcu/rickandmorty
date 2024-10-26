@@ -18,6 +18,7 @@ class CharacterBadges extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Wrap(
+      crossAxisAlignment: WrapCrossAlignment.center,
       runSpacing: 8,
       spacing: separatorWidth,
       children: [
