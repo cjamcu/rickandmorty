@@ -53,7 +53,6 @@ class _ListViewInfiniteState extends State<ListViewInfinite> {
         if (index < widget.itemCount) {
           return widget.itemBuilder(context, index);
         } else {
-          // This is the loading indicator
           return const Padding(
             padding: EdgeInsets.only(
               bottom: 16,
