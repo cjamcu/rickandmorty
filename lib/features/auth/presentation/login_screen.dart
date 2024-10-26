@@ -26,10 +26,12 @@ class _LoginScreenState extends State<LoginScreen> {
   late AuthProvider _authProvider;
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _authProvider = Provider.of<AuthProvider>(context, listen: false);
-    _authProvider.addListener(_handleAuthStateChange);
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _authProvider = Provider.of<AuthProvider>(context, listen: false);
+      _authProvider.addListener(_handleAuthStateChange);
+    });
   }
 
   @override
@@ -41,8 +43,6 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _handleAuthStateChange() {
-    if (!mounted) return;
-
     if (!mounted) return;
     switch (_authProvider.status) {
       case AuthStatus.authenticated:
@@ -155,10 +155,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           const SizedBox(height: 48),
                           Consumer<AuthProvider>(
                             builder: (context, authProvider, child) {
-                              return authProvider.status ==
-                                          AuthStatus.loading ||
-                                      authProvider.status ==
-                                          AuthStatus.authenticated
+                              return authProvider.status == AuthStatus.loading
                                   ? const CircularProgressIndicator(
                                       color: AppColors.mediumSpringGreen,
                                     )
