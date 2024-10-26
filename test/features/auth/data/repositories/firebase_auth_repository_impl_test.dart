@@ -6,6 +6,7 @@ import 'package:rickandmorty/features/auth/data/repositories/firebase_auth_repos
 import 'package:rickandmorty/features/auth/domain/exceptions/auth_exceptions.dart';
 
 class MockAuthDatasource extends Mock implements AuthDatasource {}
+
 class MockUserCredential extends Mock implements UserCredential {}
 
 void main() {
@@ -28,14 +29,18 @@ void main() {
           .thenAnswer((_) async => tUserCredential);
 
       // Act
-      final result = await repository.signInWithEmailAndPassword(tEmail, tPassword);
+      final result =
+          await repository.signInWithEmailAndPassword(tEmail, tPassword);
 
       // Assert
       expect(result, equals(tUserCredential));
-      verify(() => mockDatasource.signInWithEmailAndPassword(tEmail, tPassword)).called(1);
+      verify(() => mockDatasource.signInWithEmailAndPassword(tEmail, tPassword))
+          .called(1);
     });
 
-    test('should throw InvalidCredentialsException when credentials are invalid', () async {
+    test(
+        'should throw InvalidCredentialsException when credentials are invalid',
+        () async {
       // Arrange
       when(() => mockDatasource.signInWithEmailAndPassword(tEmail, tPassword))
           .thenThrow(InvalidCredentialsException());
@@ -44,10 +49,13 @@ void main() {
       final call = repository.signInWithEmailAndPassword;
 
       // Assert
-      expect(() => call(tEmail, tPassword), throwsA(isA<InvalidCredentialsException>()));
+      expect(() => call(tEmail, tPassword),
+          throwsA(isA<InvalidCredentialsException>()));
     });
 
-    test('should throw TooManyRequestsException when too many requests are made', () async {
+    test(
+        'should throw TooManyRequestsException when too many requests are made',
+        () async {
       // Arrange
       when(() => mockDatasource.signInWithEmailAndPassword(tEmail, tPassword))
           .thenThrow(TooManyRequestsException());
@@ -56,7 +64,8 @@ void main() {
       final call = repository.signInWithEmailAndPassword;
 
       // Assert
-      expect(() => call(tEmail, tPassword), throwsA(isA<TooManyRequestsException>()));
+      expect(() => call(tEmail, tPassword),
+          throwsA(isA<TooManyRequestsException>()),);
     });
   });
 
@@ -74,7 +83,8 @@ void main() {
 
     test('should propagate exceptions from datasource', () async {
       // Arrange
-      when(() => mockDatasource.signOut()).thenThrow(Exception('Sign out error'));
+      when(() => mockDatasource.signOut())
+          .thenThrow(Exception('Sign out error'));
 
       // Act
       final call = repository.signOut;

@@ -9,7 +9,10 @@ class FirebaseAuthRepositoryImpl implements AuthRepository {
       : _authDatasource = authDatasource;
 
   @override
-  Future<UserCredential> signInWithEmailAndPassword(String email, String password) {
+  Future<UserCredential> signInWithEmailAndPassword(
+    String email,
+    String password,
+  ) {
     return _authDatasource.signInWithEmailAndPassword(email, password);
   }
 

@@ -128,8 +128,8 @@ void main() {
   });
 
   group('getEpisode', () {
-    final tEpisodeUrl = 'https://rickandmortyapi.com/api/episode/1';
-    final tEpisodeJson = '''
+    const tEpisodeUrl = 'https://rickandmortyapi.com/api/episode/1';
+    const tEpisodeJson = '''
       {
         "id": 1,
         "name": "Pilot",

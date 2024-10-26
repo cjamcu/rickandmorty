@@ -6,6 +6,6 @@ abstract class CharactersRepository {
     required int page,
     String? name,
   });
-  
+
   Future<Episode> getEpisode(String url);
 }

@@ -10,7 +10,6 @@ class AvatarCached extends StatelessWidget {
   final String imageUrl;
   final double size;
 
-
   @override
   Widget build(BuildContext context) {
     return CachedNetworkImage(

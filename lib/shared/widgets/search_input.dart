@@ -59,7 +59,7 @@ class _SearchInputState extends State<SearchInput> {
       ),
       onTap: widget.onTap,
       onChanged: (value) {
-        setState(() {}); // Esto forzará una reconstrucción para mostrar/ocultar el icono X
+        setState(() {});
         widget.onChanged?.call(value);
       },
     );
